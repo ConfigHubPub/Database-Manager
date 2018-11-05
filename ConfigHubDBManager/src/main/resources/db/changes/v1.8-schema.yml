@@ -1,0 +1,112 @@
+databaseChangeLog:
+
+- changeSet:
+    id: v1.8-schema-0001
+    author: edoarsla
+    changes:
+    - renameTable:
+        newTableName: ctxlevel
+        oldTableName: level
+
+    - renameTable:
+        newTableName: accessrule_ctxlevel
+        oldTableName: accessrule_level
+
+    - renameTable:
+        newTableName: property_ctxlevel
+        oldTableName: property_level
+
+    - renameTable:
+        newTableName: property_ctxlevel_audit
+        oldTableName: property_level_audit
+
+    - renameTable:
+        newTableName: ctxlevel_audit
+        oldTableName: level_audit
+
+    - renameTable:
+        newTableName: ctxlevel_ctxlevel
+        oldTableName: level_level
+
+    - renameTable:
+        newTableName: ctxlevel_ctxlevel_audit
+        oldTableName: level_level_audit
+
+    - renameTable:
+        newTableName: repofile_ctxlevel
+        oldTableName: repofile_level
+
+    - renameTable:
+        newTableName: repofile_ctxlevel_audit
+        oldTableName: repofile_level_audit
+
+- changeSet:
+    id: v1.8-schema-0002
+    author: edoarsla
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+              primaryKeyName: systemconfig_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: configgroup
+            type: VARCHAR(255)
+        - column:
+            name: encrypted
+            type: BOOLEAN
+        - column:
+            constraints:
+              nullable: false
+            name: configkey
+            type: VARCHAR(255)
+        - column:
+            name: value
+            type: VARCHAR(512)
+        tableName: systemconfig
+    - createIndex:
+        columns:
+        - column:
+            name: id
+        - column:
+            name: configgroup
+        - column:
+            name: configkey
+        indexName: system_config_index
+        tableName: systemconfig
+    - addUniqueConstraint:
+        columnNames: configkey
+        constraintName: uk_r3juf5ghb12odn7dwiaxulbx0
+        tableName: systemconfig
+    - addUniqueConstraint:
+        columnNames: configgroup, configkey
+        constraintName: ukq42ipys8wps81i1q3ti6nwa2u
+        tableName: systemconfig
+
+- changeSet:
+    id: v1.8-schema-0003
+    author: edoarsla
+    changes:
+    - renameColumn:
+        newColumnName: userpassword
+        oldColumnName: password
+        columnDataType: VARCHAR(255)
+        tableName: useraccount
+    - renameColumn:
+        newColumnName: sppassword
+        oldColumnName: password
+        columnDataType: VARCHAR(255)
+        tableName: securityprofile
+    - renameColumn:
+        newColumnName: sppassword
+        oldColumnName: password
+        columnDataType: VARCHAR(255)
+        tableName: securityprofile_audit

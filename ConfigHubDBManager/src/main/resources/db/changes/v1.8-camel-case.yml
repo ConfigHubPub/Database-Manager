@@ -1,0 +1,865 @@
+databaseChangeLog:
+
+- changeSet:
+    id: v1.8-schema-camel-case-1
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: AbsoluteFilePath
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: AbsoluteFilePath
+        newTableName: absolutefilepath_
+    - renameTable:
+        oldTableName: absolutefilepath_
+        newTableName: absolutefilepath
+
+- changeSet:
+    id: v1.8-schema-camel-case-2
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: AbsoluteFilePath_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: AbsoluteFilePath_Audit
+        newTableName: absolutefilepath_audit_
+    - renameTable:
+        oldTableName: absolutefilepath_audit_
+        newTableName: absolutefilepath_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-3
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: AccessRule
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: AccessRule
+        newTableName: accessrule_
+    - renameTable:
+        oldTableName: accessrule_
+        newTableName: accessrule
+
+- changeSet:
+    id: v1.8-schema-camel-case-4
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: AccessRule_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: AccessRule_Audit
+        newTableName: accessrule_audit_
+    - renameTable:
+        oldTableName: accessrule_audit_
+        newTableName: accessrule_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-5
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: AccessRule_Level
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: AccessRule_Level
+        newTableName: accessrule_level_
+    - renameTable:
+        oldTableName: accessrule_level_
+        newTableName: accessrule_level
+
+- changeSet:
+    id: v1.8-schema-camel-case-6
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Account
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Account
+        newTableName: account_
+    - renameTable:
+        oldTableName: account_
+        newTableName: account
+
+- changeSet:
+    id: v1.8-schema-camel-case-7
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Account_Repository
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Account_Repository
+        newTableName: account_repository_
+    - renameTable:
+        oldTableName: account_repository_
+        newTableName: account_repository
+
+- changeSet:
+    id: v1.8-schema-camel-case-8
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Email
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Email
+        newTableName: email_
+    - renameTable:
+        oldTableName: email_
+        newTableName: email
+
+- changeSet:
+    id: v1.8-schema-camel-case-9
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Level
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Level
+        newTableName: level_
+    - renameTable:
+        oldTableName: level_
+        newTableName: level
+
+- changeSet:
+    id: v1.8-schema-camel-case-10
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Level_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Level_Audit
+        newTableName: level_audit_
+    - renameTable:
+        oldTableName: level_audit_
+        newTableName: level_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-11
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Level_Level
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Level_Level
+        newTableName: level_level_
+    - renameTable:
+        oldTableName: level_level_
+        newTableName: level_level
+
+- changeSet:
+    id: v1.8-schema-camel-case-12
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Level_Level_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Level_Level_Audit
+        newTableName: level_level_audit_
+    - renameTable:
+        oldTableName: level_level_audit_
+        newTableName: level_level_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-13
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Organization
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Organization
+        newTableName: organization_
+    - renameTable:
+        oldTableName: organization_
+        newTableName: organization
+
+- changeSet:
+    id: v1.8-schema-camel-case-14
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Organization_Admins
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Organization_Admins
+        newTableName: organization_admins_
+    - renameTable:
+        oldTableName: organization_admins_
+        newTableName: organization_admins
+
+- changeSet:
+    id: v1.8-schema-camel-case-15
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Organization_Owners
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Organization_Owners
+        newTableName: organization_owners_
+    - renameTable:
+        oldTableName: organization_owners_
+        newTableName: organization_owners
+
+- changeSet:
+    id: v1.8-schema-camel-case-16
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Property
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Property
+        newTableName: property_
+    - renameTable:
+        oldTableName: property_
+        newTableName: property
+
+- changeSet:
+    id: v1.8-schema-camel-case-17
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: PropertyKey
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: PropertyKey
+        newTableName: propertykey_
+    - renameTable:
+        oldTableName: propertykey_
+        newTableName: propertykey
+
+- changeSet:
+    id: v1.8-schema-camel-case-18
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: PropertyKey_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: PropertyKey_Audit
+        newTableName: propertykey_audit_
+    - renameTable:
+        oldTableName: propertykey_audit_
+        newTableName: propertykey_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-19
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Property_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Property_Audit
+        newTableName: property_audit_
+    - renameTable:
+        oldTableName: property_audit_
+        newTableName: property_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-20
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Property_Level
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Property_Level
+        newTableName: property_level_
+    - renameTable:
+        oldTableName: property_level_
+        newTableName: property_level
+
+- changeSet:
+    id: v1.8-schema-camel-case-21
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Property_Level_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Property_Level_Audit
+        newTableName: property_level_audit_
+    - renameTable:
+        oldTableName: property_level_audit_
+        newTableName: property_level_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-22
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: RepoFile
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: RepoFile
+        newTableName: repofile_
+    - renameTable:
+        oldTableName: repofile_
+        newTableName: repofile
+
+- changeSet:
+    id: v1.8-schema-camel-case-23
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: RepoFile_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: RepoFile_Audit
+        newTableName: repofile_audit_
+    - renameTable:
+        oldTableName: repofile_audit_
+        newTableName: repofile_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-24
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: RepoFile_Level
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: RepoFile_Level
+        newTableName: repofile_level_
+    - renameTable:
+        oldTableName: repofile_level_
+        newTableName: repofile_level
+
+- changeSet:
+    id: v1.8-schema-camel-case-25
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: RepoFile_Level_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: RepoFile_Level_Audit
+        newTableName: repofile_level_audit_
+    - renameTable:
+        oldTableName: repofile_level_audit_
+        newTableName: repofile_level_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-26
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: RepoFile_PropertyKey
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: RepoFile_PropertyKey
+        newTableName: repofile_propertykey_
+    - renameTable:
+        oldTableName: repofile_propertykey_
+        newTableName: repofile_propertykey
+
+- changeSet:
+    id: v1.8-schema-camel-case-27
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: RepoFile_PropertyKey_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: RepoFile_PropertyKey_Audit
+        newTableName: repofile_propertykey_audit_
+    - renameTable:
+        oldTableName: repofile_propertykey_audit_
+        newTableName: repofile_propertykey_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-28
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Repository
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Repository
+        newTableName: repository_
+    - renameTable:
+        oldTableName: repository_
+        newTableName: repository
+
+- changeSet:
+    id: v1.8-schema-camel-case-29
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Repository_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Repository_Audit
+        newTableName: repository_audit_
+    - renameTable:
+        oldTableName: repository_audit_
+        newTableName: repository_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-30
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Repository_Team
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Repository_Team
+        newTableName: repository_team_
+    - renameTable:
+        oldTableName: repository_team_
+        newTableName: repository_team
+
+- changeSet:
+    id: v1.8-schema-camel-case-31
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: RevisionEntry
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: RevisionEntry
+        newTableName: revisionentry_
+    - renameTable:
+        oldTableName: revisionentry_
+        newTableName: revisionentry
+
+- changeSet:
+    id: v1.8-schema-camel-case-32
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: SecurityProfile
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: SecurityProfile
+        newTableName: securityprofile_
+    - renameTable:
+        oldTableName: securityprofile_
+        newTableName: securityprofile
+
+- changeSet:
+    id: v1.8-schema-camel-case-33
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: SecurityProfile_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: SecurityProfile_Audit
+        newTableName: securityprofile_audit_
+    - renameTable:
+        oldTableName: securityprofile_audit_
+        newTableName: securityprofile_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-34
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Tag
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Tag
+        newTableName: tag_
+    - renameTable:
+        oldTableName: tag_
+        newTableName: tag
+
+- changeSet:
+    id: v1.8-schema-camel-case-35
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Tag_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Tag_Audit
+        newTableName: tag_audit_
+    - renameTable:
+        oldTableName: tag_audit_
+        newTableName: tag_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-36
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Team
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Team
+        newTableName: team_
+    - renameTable:
+        oldTableName: team_
+        newTableName: team
+
+- changeSet:
+    id: v1.8-schema-camel-case-37
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Team_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Team_Audit
+        newTableName: team_audit_
+    - renameTable:
+        oldTableName: team_audit_
+        newTableName: team_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-38
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Team_Token
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Team_Token
+        newTableName: team_token_
+    - renameTable:
+        oldTableName: team_token_
+        newTableName: team_token
+
+- changeSet:
+    id: v1.8-schema-camel-case-39
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Team_Token_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Team_Token_Audit
+        newTableName: team_token_audit_
+    - renameTable:
+        oldTableName: team_token_audit_
+        newTableName: team_token_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-40
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Team_UserAccount
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Team_UserAccount
+        newTableName: team_useraccount_
+    - renameTable:
+        oldTableName: team_useraccount_
+        newTableName: team_useraccount
+
+- changeSet:
+    id: v1.8-schema-camel-case-41
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Team_UserAccount_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Team_UserAccount_Audit
+        newTableName: team_useraccount_audit_
+    - renameTable:
+        oldTableName: team_useraccount_audit_
+        newTableName: team_useraccount_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-42
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Token
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Token
+        newTableName: token_
+    - renameTable:
+        oldTableName: token_
+        newTableName: token
+
+- changeSet:
+    id: v1.8-schema-camel-case-43
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Token_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Token_Audit
+        newTableName: token_audit_
+    - renameTable:
+        oldTableName: token_audit_
+        newTableName: token_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-44
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Token_SecurityProfile
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Token_SecurityProfile
+        newTableName: token_securityprofile_
+    - renameTable:
+        oldTableName: token_securityprofile_
+        newTableName: token_securityprofile
+
+- changeSet:
+    id: v1.8-schema-camel-case-45
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: Token_SecurityProfile_Audit
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: Token_SecurityProfile_Audit
+        newTableName: token_securityprofile_audit_
+    - renameTable:
+        oldTableName: token_securityprofile_audit_
+        newTableName: token_securityprofile_audit
+
+- changeSet:
+    id: v1.8-schema-camel-case-46
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: UserAccount
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: UserAccount
+        newTableName: useraccount_
+    - renameTable:
+        oldTableName: useraccount_
+        newTableName: useraccount
+
+- changeSet:
+    id: v1.8-schema-camel-case-47
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: UserAccount_Organization
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: UserAccount_Organization
+        newTableName: useraccount_organization_
+    - renameTable:
+        oldTableName: useraccount_organization_
+        newTableName: useraccount_organization
+
+- changeSet:
+    id: v1.8-schema-camel-case-48
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - tableExists:
+          tableName: UserAccount_Token
+      - dbms:
+          type: mysql
+    changes:
+    - renameTable:
+        oldTableName: UserAccount_Token
+        newTableName: useraccount_token_
+    - renameTable:
+        oldTableName: useraccount_token_
+        newTableName: useraccount_token

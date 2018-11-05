@@ -1,0 +1,13 @@
+databaseChangeLog:
+
+- include:
+    file: db/changes/v1.8-type-changes.yml
+
+- include:
+    file: db/changes/v1.7-schema.yml
+
+- include:
+    file: db/changes/v1.8-camel-case.yml
+
+- include:
+    file: db/changes/v1.8-schema.yml

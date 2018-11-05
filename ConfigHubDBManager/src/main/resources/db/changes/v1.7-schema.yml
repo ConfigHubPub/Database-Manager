@@ -1,0 +1,3896 @@
+databaseChangeLog:
+
+- changeSet:
+    id: v1.7-schema-0
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - not:
+        - sequenceExists:
+            sequenceName: hibernate_sequence
+      - not:
+        - dbms:
+            type: mysql
+    changes:
+    - createSequence:
+        sequenceName: hibernate_sequence
+
+- changeSet:
+    id: v1.7-schema-mysql-0
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - and:
+      - not:
+        - tableExists:
+            tableName: hibernate_sequence
+      - not:
+        - dbms:
+            type: postgresql, oracle
+    changes:
+    - createTable:
+        columns:
+        - column:
+            name: next_val
+            type: bigint(20)
+        tableName: hibernate_sequence
+    - insert:
+        columns:
+        - column:
+            name: next_val
+            value: 15000
+        tableName: hibernate_sequence
+
+- changeSet:
+    id: v1.7-schema-1
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: absolutefilepath
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: abspath
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: filename
+            type: VARCHAR(255)
+        - column:
+            name: path
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: repositoryid
+            type: BIGINT
+        tableName: absolutefilepath
+    - createIndex:
+        columns:
+        - column:
+            name: id
+        - column:
+            name: repositoryid
+        - column:
+            name: abspath
+        indexName: AFP_repoIndex
+        tableName: absolutefilepath
+    - createIndex:
+        columns:
+        - column:
+            name: repositoryid
+        indexName: FKlxiorvj8k9qshy951bovehh1y
+        tableName: absolutefilepath
+    - addUniqueConstraint:
+        columnNames: abspath, repositoryid
+        constraintName: UKrncnvsdk64t5vjteltar1wwcw
+        tableName: absolutefilepath
+
+- changeSet:
+    id: v1.7-schema-2
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: absolutefilepath_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: abspath
+            type: VARCHAR(255)
+        - column:
+            name: filename
+            type: VARCHAR(255)
+        - column:
+            name: path
+            type: VARCHAR(255)
+        - column:
+            name: repositoryid
+            type: BIGINT
+        tableName: absolutefilepath_audit
+    - createIndex:
+        columns:
+        - column:
+            name: REVEND
+        indexName: FKmf1aigrdb5hbs9b5trysdyuee
+        tableName: absolutefilepath_audit
+    - createIndex:
+        columns:
+        - column:
+            name: REV
+        indexName: FKsq3dtvsa6x95tydm8jma44vnd
+        tableName: absolutefilepath_audit
+
+- changeSet:
+    id: v1.7-schema-3
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: accessrule
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: canedit
+            type: BOOLEAN
+        - column:
+            name: contextjson
+            type: TEXT
+        - column:
+            name: contextmatchtype
+            type: VARCHAR(255)
+        - column:
+            name: keymatchtype
+            type: VARCHAR(255)
+        - column:
+            name: matchvalue
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: priority
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: ruletarget
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: team
+            type: BIGINT
+        tableName: accessrule
+    - createIndex:
+        columns:
+        - column:
+            name: team
+        indexName: FK15h7tel8t9lve1m86923l9y3r
+        tableName: accessrule
+
+- changeSet:
+    id: v1.7-schema-4
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: accessrule_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: canedit
+            type: BOOLEAN
+        - column:
+            name: contextjson
+            type: TEXT
+        - column:
+            name: contextmatchtype
+            type: VARCHAR(255)
+        - column:
+            name: keymatchtype
+            type: VARCHAR(255)
+        - column:
+            name: matchvalue
+            type: VARCHAR(255)
+        - column:
+            name: priority
+            type: INT
+        - column:
+            name: ruletarget
+            type: VARCHAR(255)
+        - column:
+            name: team
+            type: BIGINT
+        tableName: accessrule_audit
+    - createIndex:
+        columns:
+        - column:
+            name: REVEND
+        indexName: FKhfvxctssq2074bv5q94bstvpt
+        tableName: accessrule_audit
+    - createIndex:
+        columns:
+        - column:
+            name: REV
+        indexName: FKmleuvr9dmidmj2irgprmppijg
+        tableName: accessrule_audit
+
+- changeSet:
+    id: v1.7-schema-5
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: accessrule_level
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: accessrule_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: context_id
+            type: BIGINT
+        tableName: accessrule_level
+    - createIndex:
+        columns:
+        - column:
+            name: context_id
+        indexName: FKo2ovx2b8iggg2579gxugicge
+        tableName: accessrule_level
+
+- changeSet:
+    id: v1.7-schema-6
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: account
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: city
+            type: VARCHAR(255)
+        - column:
+            name: company
+            type: VARCHAR(255)
+        - column:
+            name: country
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+              unique: true
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: website
+            type: VARCHAR(255)
+        - column:
+            name: organization_id
+            type: BIGINT
+        - column:
+            name: user_id
+            type: BIGINT
+        tableName: account
+    - createIndex:
+        columns:
+        - column:
+            name: user_id
+        indexName: FK7kvnw36vqhel8kfy750s2u8u4
+        tableName: account
+    - createIndex:
+        columns:
+        - column:
+            name: organization_id
+        indexName: FKqc9uuldfqmt5qhf6f99f3b169
+        tableName: account
+
+- changeSet:
+    id: v1.7-schema-7
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: account_repository
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: account_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: repositories_id
+            type: BIGINT
+        tableName: account_repository
+    - createIndex:
+        columns:
+        - column:
+            name: repositories_id
+        indexName: FKtmpj15ythpr8eoxmw7t2qv7yx
+        tableName: account_repository
+
+- changeSet:
+    id: v1.7-schema-8
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: email
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+              unique: true
+            name: email
+            type: VARCHAR(255)
+        - column:
+            name: user_id
+            type: BIGINT
+        tableName: email
+    - createIndex:
+        columns:
+        - column:
+            name: user_id
+        indexName: FKj35ma95suq1bsrm0q606r21d6
+        tableName: email
+
+- changeSet:
+    id: v1.7-schema-9
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: level
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: depth
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: type
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: repositoryid
+            type: BIGINT
+        tableName: level
+    - createIndex:
+        columns:
+        - column:
+            name: repositoryid
+        indexName: FKsxkfkathmadso50q5j6jwvojp
+        tableName: level
+    - createIndex:
+        columns:
+        - column:
+            name: id
+        - column:
+            name: repositoryid
+        indexName: LVL_repoIndex
+        tableName: level
+    - addUniqueConstraint:
+        columnNames: name, depth, repositoryid
+        constraintName: UKhgt86bme51u315n6co4rs5ov4
+        tableName: level
+
+- changeSet:
+    id: v1.7-schema-10
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: level_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: depth
+            type: VARCHAR(255)
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: type
+            type: VARCHAR(255)
+        - column:
+            name: repositoryid
+            type: BIGINT
+        tableName: level_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FKebfp0dnlt1doat9sbrlf5t797
+        tableName: level_audit
+    - createIndex:
+        columns:
+        - column:
+            name: rev
+        indexName: FKibnoavw0n8sbh9h53tleyc0i
+        tableName: level_audit
+
+- changeSet:
+    id: v1.7-schema-11
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: level_level
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: groups_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: members_id
+            type: BIGINT
+        tableName: level_level
+    - createIndex:
+        columns:
+        - column:
+            name: members_id
+        indexName: FKnfrngot3489w6q16r32k31q77
+        tableName: level_level
+
+- changeSet:
+    id: v1.7-schema-12
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: level_level_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: groups_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: members_id
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        tableName: level_level_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FKs9ux7hkhefghun48f10l057yf
+        tableName: level_level_audit
+
+- changeSet:
+    id: v1.7-schema-13
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: organization
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: createdate
+            type: datetime
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: account_id
+            type: BIGINT
+        tableName: organization
+    - createIndex:
+        columns:
+        - column:
+            name: account_id
+        indexName: FKsn7d4pawxvy2d39pg6irxvd1x
+        tableName: organization
+
+- changeSet:
+    id: v1.7-schema-14
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: organization_admins
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: organization_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: administrators_id
+            type: BIGINT
+        tableName: organization_admins
+    - createIndex:
+        columns:
+        - column:
+            name: administrators_id
+        indexName: FK8en1506e58hvi7f2jrdja5ymv
+        tableName: organization_admins
+
+- changeSet:
+    id: v1.7-schema-15
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: organization_owners
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: organization_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: owners_id
+            type: BIGINT
+        tableName: organization_owners
+    - createIndex:
+        columns:
+        - column:
+            name: owners_id
+        indexName: FKhjxr3b54tih2jo065ft6itkbu
+        tableName: organization_owners
+
+- changeSet:
+    id: v1.7-schema-16
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: property
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: active
+            type: BOOLEAN
+        - column:
+            name: contextjson
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: contextweight
+            type: INT
+        - column:
+            name: value
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: repositoryid
+            type: BIGINT
+        - column:
+            name: absolutefilepath
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: propertykey_id
+            type: BIGINT
+        tableName: property
+    - createIndex:
+        columns:
+        - column:
+            name: absolutefilepath
+        indexName: FK8nbbs6blxqx3fjm2s51of8oxs
+        tableName: property
+    - createIndex:
+        columns:
+        - column:
+            name: repositoryid
+        indexName: FKfxn0wmkpx8k8x2g2r5xyq3jup
+        tableName: property
+    - createIndex:
+        columns:
+        - column:
+            name: propertykey_id
+        indexName: FKrcfwuulcd2xveojqygbw2j82c
+        tableName: property
+    - createIndex:
+        columns:
+        - column:
+            name: id
+        - column:
+            name: propertykey_id
+        - column:
+            name: repositoryid
+        indexName: PROP_repoIndex
+        tableName: property
+
+- changeSet:
+    id: v1.7-schema-17
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: propertykey
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: deprecated
+            type: BOOLEAN
+        - column:
+            constraints:
+              nullable: false
+            name: propertykey
+            type: VARCHAR(255)
+        - column:
+            name: pushvalueenabled
+            type: BOOLEAN
+        - column:
+            name: readme
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: valuedatatype
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: repositoryid
+            type: BIGINT
+        - column:
+            name: securityprofile_id
+            type: BIGINT
+        tableName: propertykey
+    - createIndex:
+        columns:
+        - column:
+            name: repositoryid
+        indexName: FK96xe4gylfsnkofd6y707ktpqk
+        tableName: propertykey
+    - createIndex:
+        columns:
+        - column:
+            name: securityprofile_id
+        indexName: FKlp5w4yjeg4n40cbn4difypkoi
+        tableName: propertykey
+    - createIndex:
+        columns:
+        - column:
+            name: id
+        - column:
+            name: repositoryid
+        indexName: PROP_KEY_repoIndex
+        tableName: propertykey
+    - addUniqueConstraint:
+        columnNames: propertykey, repositoryid
+        constraintName: UKkgk1sxx690tdpxj9hsfv28uba
+        tableName: propertykey
+
+- changeSet:
+    id: v1.7-schema-18
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: propertykey_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: deprecated
+            type: BOOLEAN
+        - column:
+            name: propertykey
+            type: VARCHAR(255)
+        - column:
+            name: pushvalueenabled
+            type: BOOLEAN
+        - column:
+            name: readme
+            type: TEXT
+        - column:
+            name: valuedatatype
+            type: VARCHAR(255)
+        - column:
+            name: repositoryid
+            type: BIGINT
+        - column:
+            name: securityprofile_id
+            type: BIGINT
+        tableName: propertykey_audit
+    - createIndex:
+        columns:
+        - column:
+            name: rev
+        indexName: FK3glih1wqjtqqysgev5o25gpcm
+        tableName: propertykey_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FK8u2evprtwju2drlgqg093ob36
+        tableName: propertykey_audit
+
+- changeSet:
+    id: v1.7-schema-19
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: property_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: active
+            type: BOOLEAN
+        - column:
+            name: contextjson
+            type: TEXT
+        - column:
+            name: contextweight
+            type: INT
+        - column:
+            name: value
+            type: TEXT
+        - column:
+            name: repositoryid
+            type: BIGINT
+        - column:
+            name: absolutefilepath
+            type: BIGINT
+        - column:
+            name: propertykey_id
+            type: BIGINT
+        tableName: property_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FKkw5u1a474bmuixelc44tj160l
+        tableName: property_audit
+    - createIndex:
+        columns:
+        - column:
+            name: rev
+        indexName: FKpkx75xd400my1b5ugiidvcqfc
+        tableName: property_audit
+
+- changeSet:
+    id: v1.7-schema-20
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: property_level
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: properties_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: context_id
+            type: BIGINT
+        tableName: property_level
+    - createIndex:
+        columns:
+        - column:
+            name: context_id
+        indexName: FKoftlhmr6mf7q48dv8ieht7xlq
+        tableName: property_level
+
+- changeSet:
+    id: v1.7-schema-21
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: property_level_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: properties_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: context_id
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        tableName: property_level_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FK836wucyouiewg9olc674m8q9u
+        tableName: property_level_audit
+
+- changeSet:
+    id: v1.7-schema-22
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: repofile
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: active
+            type: BOOLEAN
+        - column:
+            name: contextjson
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: contextweight
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: content
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: repositoryid
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: absfilepath_id
+            type: BIGINT
+        - column:
+            name: securityprofile_id
+            type: BIGINT
+        tableName: repofile
+    - createIndex:
+        columns:
+        - column:
+            name: repositoryid
+        indexName: FK4pgaa1lemvlmwtbq1iyub9oix
+        tableName: repofile
+    - createIndex:
+        columns:
+        - column:
+            name: absfilepath_id
+        indexName: FKb5arhv2gq2foi6fyninyrc6oq
+        tableName: repofile
+    - createIndex:
+        columns:
+        - column:
+            name: securityprofile_id
+        indexName: FKc1l7gul4nbp2k4ksqpiu1ak88
+        tableName: repofile
+
+- changeSet:
+    id: v1.7-schema-23
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: repofile_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: active
+            type: BOOLEAN
+        - column:
+            name: contextjson
+            type: TEXT
+        - column:
+            name: contextweight
+            type: INT
+        - column:
+            name: content
+            type: TEXT
+        - column:
+            name: repositoryid
+            type: BIGINT
+        - column:
+            name: absfilepath_id
+            type: BIGINT
+        - column:
+            name: securityprofile_id
+            type: BIGINT
+        tableName: repofile_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FKorkynioy6e4qjvq5x1vf8pk3r
+        tableName: repofile_audit
+    - createIndex:
+        columns:
+        - column:
+            name: rev
+        indexName: FKpoow0vujn78pvplo2ge5icq1j
+        tableName: repofile_audit
+
+- changeSet:
+    id: v1.7-schema-24
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: repofile_level
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: files_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: context_id
+            type: BIGINT
+        tableName: repofile_level
+    - createIndex:
+        columns:
+        - column:
+            name: context_id
+        indexName: FK3qvvwt9wwa78lbicgsuigds5n
+        tableName: repofile_level
+
+- changeSet:
+    id: v1.7-schema-25
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: repofile_level_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: files_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: context_id
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        tableName: repofile_level_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FK8jvey1udvbi0tptxty36bwphq
+        tableName: repofile_level_audit
+
+- changeSet:
+    id: v1.7-schema-26
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: repofile_propertykey
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: files_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: keys_id
+            type: BIGINT
+        tableName: repofile_propertykey
+    - createIndex:
+        columns:
+        - column:
+            name: keys_id
+        indexName: FKciasf7bo3pegn0i9413dkwx85
+        tableName: repofile_propertykey
+
+- changeSet:
+    id: v1.7-schema-27
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: repofile_propertykey_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: files_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: keys_id
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        tableName: repofile_propertykey_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FK2d5fcxo0ajndhid47y38m59su
+        tableName: repofile_propertykey_audit
+
+
+- changeSet:
+    id: v1.7-schema-28
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: repository
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: accesscontrolenabled
+            type: BOOLEAN
+        - column:
+            name: active
+            type: BOOLEAN
+        - column:
+            defaultValueBoolean: false
+            name: admincontextcontrolled
+            type: BOOLEAN
+        - column:
+            defaultValueBoolean: false
+            name: allowtokenfreeapipull
+            type: BOOLEAN
+        - column:
+            defaultValueBoolean: false
+            name: allowtokenfreeapipush
+            type: BOOLEAN
+        - column:
+            defaultValueBoolean: false
+            name: contextclustersenabled
+            type: BOOLEAN
+        - column:
+            constraints:
+              nullable: false
+            name: createdate
+            type: datetime
+        - column:
+            name: demo
+            type: BOOLEAN
+        - column:
+            constraints:
+              nullable: false
+            name: depth
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: depthlabels
+            type: VARCHAR(255)
+        - column:
+            name: description
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: isprivate
+            type: BOOLEAN
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(255)
+        - column:
+            defaultValueBoolean: true
+            name: securityprofilesenabled
+            type: BOOLEAN
+        - column:
+            defaultValueBoolean: true
+            name: valuetypeenabled
+            type: BOOLEAN
+        - column:
+            name: accountid
+            type: BIGINT
+        tableName: repository
+    - createIndex:
+        columns:
+        - column:
+            name: accountid
+        indexName: FKhb1y76p3uwq7ldt1v3yw1toob
+        tableName: repository
+    - createIndex:
+        columns:
+        - column:
+            name: id
+        - column:
+            name: name
+        - column:
+            name: accountid
+        indexName: REPO_repoIndex
+        tableName: repository
+    - addUniqueConstraint:
+        columnNames: name, accountid
+        constraintName: UKgsxkucdri6drlvmgecqpktajm
+        tableName: repository
+
+- changeSet:
+    id: v1.7-schema-29
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: repository_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: accesscontrolenabled
+            type: BOOLEAN
+        - column:
+            name: active
+            type: BOOLEAN
+        - column:
+            name: admincontextcontrolled
+            type: BOOLEAN
+        - column:
+            name: allowtokenfreeapipull
+            type: BOOLEAN
+        - column:
+            name: allowtokenfreeapipush
+            type: BOOLEAN
+        - column:
+            name: contextclustersenabled
+            type: BOOLEAN
+        - column:
+            name: demo
+            type: BOOLEAN
+        - column:
+            name: depth
+            type: VARCHAR(255)
+        - column:
+            name: depthlabels
+            type: VARCHAR(255)
+        - column:
+            name: description
+            type: VARCHAR(255)
+        - column:
+            name: isprivate
+            type: BOOLEAN
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: securityprofilesenabled
+            type: BOOLEAN
+        - column:
+            name: valuetypeenabled
+            type: BOOLEAN
+        - column:
+            name: accountid
+            type: BIGINT
+        tableName: repository_audit
+    - createIndex:
+        columns:
+        - column:
+            name: rev
+        indexName: FK1g7o4xgai71drg488yerd26ip
+        tableName: repository_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FKbet1447sj0vowh21luyg1pxr0
+        tableName: repository_audit
+
+
+- changeSet:
+    id: v1.7-schema-30
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: repository_team
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: repository_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+              unique: true
+            name: teams_id
+            type: BIGINT
+        tableName: repository_team
+
+- changeSet:
+    id: v1.7-schema-31
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: revisionentry
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: appid
+            type: VARCHAR(255)
+        - column:
+            name: changecomment
+            type: TEXT
+        - column:
+            name: commitgroup
+            type: VARCHAR(255)
+        - column:
+            name: notify
+            type: BOOLEAN
+        - column:
+            name: repositoryid
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TEXT
+        - column:
+            name: searchkey
+            type: TEXT
+        - column:
+            name: timestamp
+            type: BIGINT
+        - column:
+            name: type
+            type: VARCHAR(255)
+        - column:
+            name: userid
+            type: BIGINT
+        tableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-32
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: securityprofile
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: cipher
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: password
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: repositoryid
+            type: BIGINT
+        tableName: securityprofile
+    - createIndex:
+        columns:
+        - column:
+            name: repositoryid
+        indexName: FKm533bmbvjxyettlu30lht2phk
+        tableName: securityprofile
+    - addUniqueConstraint:
+        columnNames: name, repositoryid
+        constraintName: UKj43c2tldwxfjjepnlg6pcfn2o
+        tableName: securityprofile
+
+- changeSet:
+    id: v1.7-schema-33
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: securityprofile_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: cipher
+            type: VARCHAR(255)
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: password
+            type: VARCHAR(2048)
+        - column:
+            name: repositoryid
+            type: BIGINT
+        tableName: securityprofile_audit
+    - createIndex:
+        columns:
+        - column:
+            name: rev
+        indexName: FKagqpsul1wfulvktp1h6gc2pv
+        tableName: securityprofile_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FKi4dmghntqndf73lkh14fv1ehx
+        tableName: securityprofile_audit
+
+- changeSet:
+    id: v1.7-schema-34
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: tag
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: readme
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: ts
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: repositoryid
+            type: BIGINT
+        tableName: tag
+    - createIndex:
+        columns:
+        - column:
+            name: repositoryid
+        indexName: FKos0n7c0b8uw03eebjttoj73p9
+        tableName: tag
+    - addUniqueConstraint:
+        columnNames: name, repositoryid
+        constraintName: UKp0yolsd976qvlmq2geqy0vs0o
+        tableName: tag
+
+- changeSet:
+    id: v1.7-schema-35
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: tag_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: readme
+            type: VARCHAR(255)
+        - column:
+            name: ts
+            type: BIGINT
+        - column:
+            name: repositoryid
+            type: BIGINT
+        tableName: tag_audit
+    - createIndex:
+        columns:
+        - column:
+            name: rev
+        indexName: FK9wwqqg64jxy3c43qh0a2l4p9q
+        tableName: tag_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FKgba3e96fgs78m9vl3lwr9xth6
+        tableName: tag_audit
+
+- changeSet:
+    id: v1.7-schema-36
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: team
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: createdate
+            type: datetime
+        - column:
+            name: description
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: stoponfirstmatch
+            type: BOOLEAN
+        - column:
+            name: unmatchededitable
+            type: BOOLEAN
+        - column:
+            constraints:
+              nullable: false
+            name: repositoryid
+            type: BIGINT
+        tableName: team
+    - createIndex:
+        columns:
+        - column:
+            name: repositoryid
+        indexName: FKb1al5ppjmeiehaqdyk0tu7ts3
+        tableName: team
+    - addUniqueConstraint:
+        columnNames: name, repositoryid
+        constraintName: UK7colvq35hr23h1s8yor42o0ne
+        tableName: team
+
+- changeSet:
+    id: v1.7-schema-37
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: team_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: description
+            type: VARCHAR(255)
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: stoponfirstmatch
+            type: BOOLEAN
+        - column:
+            name: unmatchededitable
+            type: BOOLEAN
+        - column:
+            name: repositoryid
+            type: BIGINT
+        tableName: team_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FKdfcuec9a2x33kv56vf4q0d4vl
+        tableName: team_audit
+    - createIndex:
+        columns:
+        - column:
+            name: rev
+        indexName: FKjc27bq8culudyyove36o8ryjs
+        tableName: team_audit
+
+- changeSet:
+    id: v1.7-schema-38
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: team_token
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: team_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: tokens_id
+            type: BIGINT
+        tableName: team_token
+    - createIndex:
+        columns:
+        - column:
+            name: tokens_id
+        indexName: FKrd0ijhb2h4mojpsjf9ilnw6vh
+        tableName: team_token
+
+- changeSet:
+    id: v1.7-schema-39
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: team_token_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: team_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: tokens_id
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        tableName: team_token_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FK95jswh4td882mk7cgfcxuakaq
+        tableName: team_token_audit
+
+- changeSet:
+    id: v1.7-schema-40
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: team_useraccount
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: team_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: members_id
+            type: BIGINT
+        tableName: team_useraccount
+    - createIndex:
+        columns:
+        - column:
+            name: members_id
+        indexName: FK2s6fk214jdgsq52b62leyx88y
+        tableName: team_useraccount
+
+- changeSet:
+    id: v1.7-schema-41
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: team_useraccount_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: team_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: members_id
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        tableName: team_useraccount_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FK38698ptunglrx8d89jk1rth9d
+        tableName: team_useraccount_audit
+
+- changeSet:
+    id: v1.7-schema-42
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: token
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: active
+            type: BOOLEAN
+        - column:
+            name: createdon
+            type: BIGINT
+        - column:
+            name: expires
+            type: BIGINT
+        - column:
+            name: forcekeypushenabled
+            type: BOOLEAN
+        - column:
+            constraints:
+              nullable: false
+            name: managedby
+            type: VARCHAR(255)
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: token
+            type: VARCHAR(450)
+        - column:
+            name: managingteamid
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: repository_id
+            type: BIGINT
+        - column:
+            name: teamrulesid
+            type: BIGINT
+        - column:
+            name: useraccountid
+            type: BIGINT
+        tableName: token
+    - createIndex:
+        columns:
+        - column:
+            name: repository_id
+        indexName: FKfkvc5xu83bm52meoudrcw56rh
+        tableName: token
+    - createIndex:
+        columns:
+        - column:
+            name: managingteamid
+        indexName: FKm0kbpcvdwm30mvbg69r73ohy7
+        tableName: token
+    - createIndex:
+        columns:
+        - column:
+            name: teamrulesid
+        indexName: FKnp2lq4pjxnidp562y85bugosa
+        tableName: token
+    - createIndex:
+        columns:
+        - column:
+            name: useraccountid
+        indexName: FKr9y7im342i9i2ed65av30qi6m
+        tableName: token
+
+- changeSet:
+    id: v1.7-schema-43
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: token_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: active
+            type: BOOLEAN
+        - column:
+            name: createdon
+            type: BIGINT
+        - column:
+            name: expires
+            type: BIGINT
+        - column:
+            name: forcekeypushenabled
+            type: BOOLEAN
+        - column:
+            name: managedby
+            type: VARCHAR(255)
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: managingteamid
+            type: BIGINT
+        - column:
+            name: repository_id
+            type: BIGINT
+        - column:
+            name: teamrulesid
+            type: BIGINT
+        - column:
+            name: useraccountid
+            type: BIGINT
+        tableName: token_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FKd5ifxen605502nk64fisrwbmp
+        tableName: token_audit
+    - createIndex:
+        columns:
+        - column:
+            name: rev
+        indexName: FKrqcpuenwpuam8s451n7w9vcih
+        tableName: token_audit
+
+- changeSet:
+    id: v1.7-schema-44
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: token_securityprofile
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: tokens_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: securityprofiles_id
+            type: BIGINT
+        tableName: token_securityprofile
+    - createIndex:
+        columns:
+        - column:
+            name: securityprofiles_id
+        indexName: FKg2a1v8p9luy9q7et0iqnfxiql
+        tableName: token_securityprofile
+
+- changeSet:
+    id: v1.7-schema-45
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: token_securityprofile_audit
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: rev
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: tokens_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: securityprofiles_id
+            type: BIGINT
+        - column:
+            name: revtype
+            type: TINYINT(3)
+        - column:
+            name: revend
+            type: BIGINT
+        - column:
+            name: revend_tstmp
+            type: datetime
+        tableName: token_securityprofile_audit
+    - createIndex:
+        columns:
+        - column:
+            name: revend
+        indexName: FKntqc411w5b3ps0xtqfpxsl8gl
+        tableName: token_securityprofile_audit
+
+- changeSet:
+    id: v1.7-schema-46
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: useraccount
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: diffjson
+            type: TEXT
+        - column:
+            name: active
+            type: BOOLEAN
+        - column:
+            name: confighubadmin
+            type: BOOLEAN
+        - column:
+            constraints:
+              nullable: false
+            name: createdate
+            type: datetime
+        - column:
+            name: emailblog
+            type: BOOLEAN
+        - column:
+            name: emailrepocritical
+            type: BOOLEAN
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: password
+            type: VARCHAR(255)
+        - column:
+            name: timezone
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+              unique: true
+            name: account_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+              unique: true
+            name: email_id
+            type: BIGINT
+        tableName: useraccount
+
+- changeSet:
+    id: v1.7-schema-47
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: useraccount_organization
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: useraccount_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: organizations_id
+            type: BIGINT
+        tableName: useraccount_organization
+    - createIndex:
+        columns:
+        - column:
+            name: organizations_id
+        indexName: FK7jk87189k20odo56i0n2gavp
+        tableName: useraccount_organization
+
+- changeSet:
+    id: v1.7-schema-48
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - tableExists:
+          tableName: useraccount_token
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: useraccount_id
+            type: BIGINT
+        - column:
+            constraints:
+              primaryKey: true
+            name: tokens_id
+            type: BIGINT
+        tableName: useraccount_token
+    - createIndex:
+        columns:
+        - column:
+            name: tokens_id
+        indexName: FK1oica1rpw2l41ultyiw6cue5p
+        tableName: useraccount_token
+
+
+
+
+
+
+
+
+
+
+
+- changeSet:
+    id: v1.7-schema-127
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK1448qxyrva8dgm5fbiyg5aqrt
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: REV
+        baseTableName: level_level_audit
+        constraintName: FK1448qxyrva8dgm5fbiyg5aqrt
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-128
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK15h7tel8t9lve1m86923l9y3r
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: team
+        baseTableName: accessrule
+        constraintName: FK15h7tel8t9lve1m86923l9y3r
+        referencedColumnNames: id
+        referencedTableName: team
+
+- changeSet:
+    id: v1.7-schema-129
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK1al1ccnkukmmmeubmn7kn16e3
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: useraccount_id
+        baseTableName: useraccount_token
+        constraintName: FK1al1ccnkukmmmeubmn7kn16e3
+        referencedColumnNames: id
+        referencedTableName: useraccount
+
+- changeSet:
+    id: v1.7-schema-130
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK1g7o4xgai71drg488yerd26ip
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: repository_audit
+        constraintName: FK1g7o4xgai71drg488yerd26ip
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-131
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK1hbcekgaloqo39dm4ov5wnmgt
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: team_useraccount_audit
+        constraintName: FK1hbcekgaloqo39dm4ov5wnmgt
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-132
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK1oica1rpw2l41ultyiw6cue5p
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: tokens_id
+        baseTableName: useraccount_token
+        constraintName: FK1oica1rpw2l41ultyiw6cue5p
+        referencedColumnNames: id
+        referencedTableName: token
+
+- changeSet:
+    id: v1.7-schema-133
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK22qwgbo9a86gco5dcevrqilme
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: teams_id
+        baseTableName: repository_team
+        constraintName: FK22qwgbo9a86gco5dcevrqilme
+        referencedColumnNames: id
+        referencedTableName: team
+
+- changeSet:
+    id: v1.7-schema-134
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK2d5fcxo0ajndhid47y38m59su
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: repofile_propertykey_audit
+        constraintName: FK2d5fcxo0ajndhid47y38m59su
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-135
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK2lahsao17rxfgidjots4dygqv
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: team_token_audit
+        constraintName: FK2lahsao17rxfgidjots4dygqv
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-136
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK2s6fk214jdgsq52b62leyx88y
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: members_id
+        baseTableName: team_useraccount
+        constraintName: FK2s6fk214jdgsq52b62leyx88y
+        referencedColumnNames: id
+        referencedTableName: useraccount
+
+- changeSet:
+    id: v1.7-schema-137
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK38698ptunglrx8d89jk1rth9d
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: team_useraccount_audit
+        constraintName: FK38698ptunglrx8d89jk1rth9d
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-138
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK3glih1wqjtqqysgev5o25gpcm
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: propertykey_audit
+        constraintName: FK3glih1wqjtqqysgev5o25gpcm
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-139
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK3qvvwt9wwa78lbicgsuigds5n
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: context_id
+        baseTableName: repofile_level
+        constraintName: FK3qvvwt9wwa78lbicgsuigds5n
+        referencedColumnNames: id
+        referencedTableName: level
+
+- changeSet:
+    id: v1.7-schema-140
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK4pgaa1lemvlmwtbq1iyub9oix
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: repositoryid
+        baseTableName: repofile
+        constraintName: FK4pgaa1lemvlmwtbq1iyub9oix
+        referencedColumnNames: id
+        referencedTableName: repository
+
+- changeSet:
+    id: v1.7-schema-141
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK5l0uk7jwq2jpsv0r77q8htyc8
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: token_securityprofile_audit
+        constraintName: FK5l0uk7jwq2jpsv0r77q8htyc8
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-142
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK6b08s72yy4sfrsllugts5ijh4
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: properties_id
+        baseTableName: property_level
+        constraintName: FK6b08s72yy4sfrsllugts5ijh4
+        referencedColumnNames: id
+        referencedTableName: property
+
+- changeSet:
+    id: v1.7-schema-143
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK7jk87189k20odo56i0n2gavp
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: organizations_id
+        baseTableName: useraccount_organization
+        constraintName: FK7jk87189k20odo56i0n2gavp
+        referencedColumnNames: id
+        referencedTableName: organization
+
+- changeSet:
+    id: v1.7-schema-144
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK7kvnw36vqhel8kfy750s2u8u4
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: account
+        constraintName: FK7kvnw36vqhel8kfy750s2u8u4
+        referencedColumnNames: id
+        referencedTableName: useraccount
+
+- changeSet:
+    id: v1.7-schema-145
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK836wucyouiewg9olc674m8q9u
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: property_level_audit
+        constraintName: FK836wucyouiewg9olc674m8q9u
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-146
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK8en1506e58hvi7f2jrdja5ymv
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: administrators_id
+        baseTableName: organization_admins
+        constraintName: FK8en1506e58hvi7f2jrdja5ymv
+        referencedColumnNames: id
+        referencedTableName: useraccount
+
+- changeSet:
+    id: v1.7-schema-147
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK8jvey1udvbi0tptxty36bwphq
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: repofile_level_audit
+        constraintName: FK8jvey1udvbi0tptxty36bwphq
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-148
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK8nbbs6blxqx3fjm2s51of8oxs
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: absolutefilepath
+        baseTableName: property
+        constraintName: FK8nbbs6blxqx3fjm2s51of8oxs
+        referencedColumnNames: id
+        referencedTableName: absolutefilepath
+
+- changeSet:
+    id: v1.7-schema-149
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK8u2evprtwju2drlgqg093ob36
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: propertykey_audit
+        constraintName: FK8u2evprtwju2drlgqg093ob36
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-150
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK95jswh4td882mk7cgfcxuakaq
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: team_token_audit
+        constraintName: FK95jswh4td882mk7cgfcxuakaq
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-151
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK96xe4gylfsnkofd6y707ktpqk
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: repositoryid
+        baseTableName: propertykey
+        constraintName: FK96xe4gylfsnkofd6y707ktpqk
+        referencedColumnNames: id
+        referencedTableName: repository
+
+- changeSet:
+    id: v1.7-schema-152
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FK9wwqqg64jxy3c43qh0a2l4p9q
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: tag_audit
+        constraintName: FK9wwqqg64jxy3c43qh0a2l4p9q
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-153
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKa353w23sbtn5ibi9x4hia9f1h
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: organization_id
+        baseTableName: organization_admins
+        constraintName: FKa353w23sbtn5ibi9x4hia9f1h
+        referencedColumnNames: id
+        referencedTableName: organization
+
+- changeSet:
+    id: v1.7-schema-154
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKagqpsul1wfulvktp1h6gc2pv
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: securityprofile_audit
+        constraintName: FKagqpsul1wfulvktp1h6gc2pv
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-155
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKalmpp97k4ppnccn4n8gl8r5tw
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: repository_id
+        baseTableName: repository_team
+        constraintName: FKalmpp97k4ppnccn4n8gl8r5tw
+        referencedColumnNames: id
+        referencedTableName: repository
+
+- changeSet:
+    id: v1.7-schema-156
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKb1al5ppjmeiehaqdyk0tu7ts3
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: repositoryid
+        baseTableName: team
+        constraintName: FKb1al5ppjmeiehaqdyk0tu7ts3
+        referencedColumnNames: id
+        referencedTableName: repository
+
+- changeSet:
+    id: v1.7-schema-157
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKb5arhv2gq2foi6fyninyrc6oq
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: absfilepath_id
+        baseTableName: repofile
+        constraintName: FKb5arhv2gq2foi6fyninyrc6oq
+        referencedColumnNames: id
+        referencedTableName: absolutefilepath
+
+- changeSet:
+    id: v1.7-schema-158
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKbet1447sj0vowh21luyg1pxr0
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: repository_audit
+        constraintName: FKbet1447sj0vowh21luyg1pxr0
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-159
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKbpmd37bd3t3hhfs9leshxgy8m
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: organization_id
+        baseTableName: organization_owners
+        constraintName: FKbpmd37bd3t3hhfs9leshxgy8m
+        referencedColumnNames: id
+        referencedTableName: organization
+
+- changeSet:
+    id: v1.7-schema-160
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKc1l7gul4nbp2k4ksqpiu1ak88
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: securityprofile_id
+        baseTableName: repofile
+        constraintName: FKc1l7gul4nbp2k4ksqpiu1ak88
+        referencedColumnNames: id
+        referencedTableName: securityprofile
+
+- changeSet:
+    id: v1.7-schema-161
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKciasf7bo3pegn0i9413dkwx85
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: keys_id
+        baseTableName: repofile_propertykey
+        constraintName: FKciasf7bo3pegn0i9413dkwx85
+        referencedColumnNames: id
+        referencedTableName: propertykey
+
+- changeSet:
+    id: v1.7-schema-162
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKd5ifxen605502nk64fisrwbmp
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: token_audit
+        constraintName: FKd5ifxen605502nk64fisrwbmp
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-163
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKdfcuec9a2x33kv56vf4q0d4vl
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: team_audit
+        constraintName: FKdfcuec9a2x33kv56vf4q0d4vl
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-164
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKebfp0dnlt1doat9sbrlf5t797
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: level_audit
+        constraintName: FKebfp0dnlt1doat9sbrlf5t797
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-165
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKebm3i4ccp3uenj1t38rf49f3h
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: team_id
+        baseTableName: team_token
+        constraintName: FKebm3i4ccp3uenj1t38rf49f3h
+        referencedColumnNames: id
+        referencedTableName: team
+
+- changeSet:
+    id: v1.7-schema-166
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKfbnisnh4h1e4uahl4vbw6w72s
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: email_id
+        baseTableName: useraccount
+        constraintName: FKfbnisnh4h1e4uahl4vbw6w72s
+        referencedColumnNames: id
+        referencedTableName: email
+
+- changeSet:
+    id: v1.7-schema-167
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKfkvc5xu83bm52meoudrcw56rh
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: repository_id
+        baseTableName: token
+        constraintName: FKfkvc5xu83bm52meoudrcw56rh
+        referencedColumnNames: id
+        referencedTableName: repository
+
+- changeSet:
+    id: v1.7-schema-168
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKfxn0wmkpx8k8x2g2r5xyq3jup
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: repositoryid
+        baseTableName: property
+        constraintName: FKfxn0wmkpx8k8x2g2r5xyq3jup
+        referencedColumnNames: id
+        referencedTableName: repository
+
+- changeSet:
+    id: v1.7-schema-169
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKg2a1v8p9luy9q7et0iqnfxiql
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: securityprofiles_id
+        baseTableName: token_securityprofile
+        constraintName: FKg2a1v8p9luy9q7et0iqnfxiql
+        referencedColumnNames: id
+        referencedTableName: securityprofile
+
+- changeSet:
+    id: v1.7-schema-170
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKg4ujll811jdecxkqd3enp2h10
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: accessrule_id
+        baseTableName: accessrule_level
+        constraintName: FKg4ujll811jdecxkqd3enp2h10
+        referencedColumnNames: id
+        referencedTableName: accessrule
+
+- changeSet:
+    id: v1.7-schema-171
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKgba3e96fgs78m9vl3lwr9xth6
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: tag_audit
+        constraintName: FKgba3e96fgs78m9vl3lwr9xth6
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-172
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKhb1y76p3uwq7ldt1v3yw1toob
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: accountid
+        baseTableName: repository
+        constraintName: FKhb1y76p3uwq7ldt1v3yw1toob
+        referencedColumnNames: id
+        referencedTableName: account
+
+- changeSet:
+    id: v1.7-schema-173
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKhfvxctssq2074bv5q94bstvpt
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: accessrule_audit
+        constraintName: FKhfvxctssq2074bv5q94bstvpt
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-174
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKhhv8eqkow45xc3ua1mywrccrl
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: groups_id
+        baseTableName: level_level
+        constraintName: FKhhv8eqkow45xc3ua1mywrccrl
+        referencedColumnNames: id
+        referencedTableName: level
+
+- changeSet:
+    id: v1.7-schema-175
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKhjxr3b54tih2jo065ft6itkbu
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: owners_id
+        baseTableName: organization_owners
+        constraintName: FKhjxr3b54tih2jo065ft6itkbu
+        referencedColumnNames: id
+        referencedTableName: useraccount
+
+- changeSet:
+    id: v1.7-schema-176
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKi4dmghntqndf73lkh14fv1ehx
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: securityprofile_audit
+        constraintName: FKi4dmghntqndf73lkh14fv1ehx
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-177
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKibnoavw0n8sbh9h53tleyc0i
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: level_audit
+        constraintName: FKibnoavw0n8sbh9h53tleyc0i
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-178
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKiti8ob1yjytcaxc16svv5vr4f
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: useraccount_id
+        baseTableName: useraccount_organization
+        constraintName: FKiti8ob1yjytcaxc16svv5vr4f
+        referencedColumnNames: id
+        referencedTableName: useraccount
+
+- changeSet:
+    id: v1.7-schema-179
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKj149w80dksbl9j6sihff5nfie
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: team_id
+        baseTableName: team_useraccount
+        constraintName: FKj149w80dksbl9j6sihff5nfie
+        referencedColumnNames: id
+        referencedTableName: team
+
+- changeSet:
+    id: v1.7-schema-180
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKj35ma95suq1bsrm0q606r21d6
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: email
+        constraintName: FKj35ma95suq1bsrm0q606r21d6
+        referencedColumnNames: id
+        referencedTableName: useraccount
+
+- changeSet:
+    id: v1.7-schema-181
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKjc27bq8culudyyove36o8ryjs
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: team_audit
+        constraintName: FKjc27bq8culudyyove36o8ryjs
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-182
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKkw5u1a474bmuixelc44tj160l
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: property_audit
+        constraintName: FKkw5u1a474bmuixelc44tj160l
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-183
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKlp5w4yjeg4n40cbn4difypkoi
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: securityprofile_id
+        baseTableName: propertykey
+        constraintName: FKlp5w4yjeg4n40cbn4difypkoi
+        referencedColumnNames: id
+        referencedTableName: securityprofile
+
+- changeSet:
+    id: v1.7-schema-184
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKlxiorvj8k9qshy951bovehh1y
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: repositoryid
+        baseTableName: absolutefilepath
+        constraintName: FKlxiorvj8k9qshy951bovehh1y
+        referencedColumnNames: id
+        referencedTableName: repository
+
+- changeSet:
+    id: v1.7-schema-185
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKm0kbpcvdwm30mvbg69r73ohy7
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: managingteamid
+        baseTableName: token
+        constraintName: FKm0kbpcvdwm30mvbg69r73ohy7
+        referencedColumnNames: id
+        referencedTableName: team
+
+- changeSet:
+    id: v1.7-schema-186
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKm533bmbvjxyettlu30lht2phk
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: repositoryid
+        baseTableName: securityprofile
+        constraintName: FKm533bmbvjxyettlu30lht2phk
+        referencedColumnNames: id
+        referencedTableName: repository
+
+- changeSet:
+    id: v1.7-schema-187
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKmf1aigrdb5hbs9b5trysdyuee
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: absolutefilepath_audit
+        constraintName: FKmf1aigrdb5hbs9b5trysdyuee
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-188
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKmleuvr9dmidmj2irgprmppijg
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: accessrule_audit
+        constraintName: FKmleuvr9dmidmj2irgprmppijg
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-189
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKn3l2a92chgd2g2kfmg8wgul3e
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: repofile_level_audit
+        constraintName: FKn3l2a92chgd2g2kfmg8wgul3e
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-190
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKnfrngot3489w6q16r32k31q77
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: members_id
+        baseTableName: level_level
+        constraintName: FKnfrngot3489w6q16r32k31q77
+        referencedColumnNames: id
+        referencedTableName: level
+
+- changeSet:
+    id: v1.7-schema-191
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKnp2lq4pjxnidp562y85bugosa
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: teamrulesid
+        baseTableName: token
+        constraintName: FKnp2lq4pjxnidp562y85bugosa
+        referencedColumnNames: id
+        referencedTableName: team
+
+- changeSet:
+    id: v1.7-schema-192
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKntqc411w5b3ps0xtqfpxsl8gl
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: token_securityprofile_audit
+        constraintName: FKntqc411w5b3ps0xtqfpxsl8gl
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-193
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKo2ovx2b8iggg2579gxugicge
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: context_id
+        baseTableName: accessrule_level
+        constraintName: FKo2ovx2b8iggg2579gxugicge
+        referencedColumnNames: id
+        referencedTableName: level
+
+- changeSet:
+    id: v1.7-schema-194
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKoftlhmr6mf7q48dv8ieht7xlq
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: context_id
+        baseTableName: property_level
+        constraintName: FKoftlhmr6mf7q48dv8ieht7xlq
+        referencedColumnNames: id
+        referencedTableName: level
+
+- changeSet:
+    id: v1.7-schema-195
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKorkynioy6e4qjvq5x1vf8pk3r
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: repofile_audit
+        constraintName: FKorkynioy6e4qjvq5x1vf8pk3r
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-196
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKos0n7c0b8uw03eebjttoj73p9
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: repositoryid
+        baseTableName: tag
+        constraintName: FKos0n7c0b8uw03eebjttoj73p9
+        referencedColumnNames: id
+        referencedTableName: repository
+
+- changeSet:
+    id: v1.7-schema-197
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKpkx75xd400my1b5ugiidvcqfc
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: property_audit
+        constraintName: FKpkx75xd400my1b5ugiidvcqfc
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-198
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKpoow0vujn78pvplo2ge5icq1j
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: repofile_audit
+        constraintName: FKpoow0vujn78pvplo2ge5icq1j
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-199
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKq0b8e8gdcgimxh0i5y1krixl4
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: account_id
+        baseTableName: account_repository
+        constraintName: FKq0b8e8gdcgimxh0i5y1krixl4
+        referencedColumnNames: id
+        referencedTableName: account
+
+- changeSet:
+    id: v1.7-schema-200
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKq5nqoa66y1cee05x7thcey1q4
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: repofile_propertykey_audit
+        constraintName: FKq5nqoa66y1cee05x7thcey1q4
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-201
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKq9j69wnbepqwbp4sjs7w3hjkt
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: tokens_id
+        baseTableName: token_securityprofile
+        constraintName: FKq9j69wnbepqwbp4sjs7w3hjkt
+        referencedColumnNames: id
+        referencedTableName: token
+
+- changeSet:
+    id: v1.7-schema-202
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKqc9uuldfqmt5qhf6f99f3b169
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: organization_id
+        baseTableName: account
+        constraintName: FKqc9uuldfqmt5qhf6f99f3b169
+        referencedColumnNames: id
+        referencedTableName: organization
+
+- changeSet:
+    id: v1.7-schema-203
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKqo0kehfrhnsnolc4pqibkn1d1
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: files_id
+        baseTableName: repofile_level
+        constraintName: FKqo0kehfrhnsnolc4pqibkn1d1
+        referencedColumnNames: id
+        referencedTableName: repofile
+
+- changeSet:
+    id: v1.7-schema-204
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKr9y7im342i9i2ed65av30qi6m
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: useraccountid
+        baseTableName: token
+        constraintName: FKr9y7im342i9i2ed65av30qi6m
+        referencedColumnNames: id
+        referencedTableName: useraccount
+
+- changeSet:
+    id: v1.7-schema-205
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKrb18a15tkq1iu4yccla6s8w0f
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: account_id
+        baseTableName: useraccount
+        constraintName: FKrb18a15tkq1iu4yccla6s8w0f
+        referencedColumnNames: id
+        referencedTableName: account
+
+- changeSet:
+    id: v1.7-schema-206
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKrcfwuulcd2xveojqygbw2j82c
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: propertykey_id
+        baseTableName: property
+        constraintName: FKrcfwuulcd2xveojqygbw2j82c
+        referencedColumnNames: id
+        referencedTableName: propertykey
+
+- changeSet:
+    id: v1.7-schema-207
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKrd0ijhb2h4mojpsjf9ilnw6vh
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: tokens_id
+        baseTableName: team_token
+        constraintName: FKrd0ijhb2h4mojpsjf9ilnw6vh
+        referencedColumnNames: id
+        referencedTableName: token
+
+- changeSet:
+    id: v1.7-schema-208
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKrqcpuenwpuam8s451n7w9vcih
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: token_audit
+        constraintName: FKrqcpuenwpuam8s451n7w9vcih
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-209
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKs9ux7hkhefghun48f10l057yf
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: revend
+        baseTableName: level_level_audit
+        constraintName: FKs9ux7hkhefghun48f10l057yf
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-210
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKsn7d4pawxvy2d39pg6irxvd1x
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: account_id
+        baseTableName: organization
+        constraintName: FKsn7d4pawxvy2d39pg6irxvd1x
+        referencedColumnNames: id
+        referencedTableName: account
+
+- changeSet:
+    id: v1.7-schema-211
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKsq3dtvsa6x95tydm8jma44vnd
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: absolutefilepath_audit
+        constraintName: FKsq3dtvsa6x95tydm8jma44vnd
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-212
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKsvw023dj20q9le8hqyr9k5sho
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rev
+        baseTableName: property_level_audit
+        constraintName: FKsvw023dj20q9le8hqyr9k5sho
+        referencedColumnNames: id
+        referencedTableName: revisionentry
+
+- changeSet:
+    id: v1.7-schema-213
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKsxkfkathmadso50q5j6jwvojp
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: repositoryid
+        baseTableName: level
+        constraintName: FKsxkfkathmadso50q5j6jwvojp
+        referencedColumnNames: id
+        referencedTableName: repository
+
+- changeSet:
+    id: v1.7-schema-214
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKtmpj15ythpr8eoxmw7t2qv7yx
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: repositories_id
+        baseTableName: account_repository
+        constraintName: FKtmpj15ythpr8eoxmw7t2qv7yx
+        referencedColumnNames: id
+        referencedTableName: repository
+
+- changeSet:
+    id: v1.7-schema-215
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - not:
+      - foreignKeyConstraintExists:
+          foreignKeyName: FKtol4trfdypgs3jp6feqhj3wjf
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: files_id
+        baseTableName: repofile_propertykey
+        constraintName: FKtol4trfdypgs3jp6feqhj3wjf
+        referencedColumnNames: id
+        referencedTableName: repofile

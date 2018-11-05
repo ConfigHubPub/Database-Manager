@@ -1,0 +1,125 @@
+databaseChangeLog:
+
+- changeSet:
+    id: v1.8-type-changes-1
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - tableExists:
+        tableName: property
+    changes:
+    - modifyDataType:
+        columnName: value
+        newDataType: TEXT
+        tableName: property
+    - modifyDataType:
+        columnName: contextjson
+        newDataType: TEXT
+        tableName: property
+
+- changeSet:
+    id: v1.8-type-changes-2
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - tableExists:
+        tableName: property_audit
+    changes:
+    - modifyDataType:
+        columnName: value
+        newDataType: TEXT
+        tableName: property_audit
+    - modifyDataType:
+        columnName: contextjson
+        newDataType: TEXT
+        tableName: property_audit
+
+- changeSet:
+    id: v1.8-type-changes-3
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - tableExists:
+        tableName: repofile
+    changes:
+    - modifyDataType:
+        columnName: contextjson
+        newDataType: TEXT
+        tableName: repofile
+    - modifyDataType:
+        columnName: content
+        newDataType: TEXT
+        tableName: repofile
+
+- changeSet:
+    id: v1.8-type-changes-4
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - tableExists:
+        tableName: repofile_audit
+    changes:
+    - modifyDataType:
+        columnName: contextjson
+        newDataType: TEXT
+        tableName: repofile_audit
+    - modifyDataType:
+        columnName: content
+        newDataType: TEXT
+        tableName: repofile_audit
+
+- changeSet:
+    id: v1.8-type-changes-5
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - tableExists:
+        tableName: accessrule
+    changes:
+    - modifyDataType:
+        columnName: contextjson
+        newDataType: TEXT
+        tableName: accessrule
+
+- changeSet:
+    id: v1.8-type-changes-6
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - tableExists:
+        tableName: accessrule_audit
+    changes:
+    - modifyDataType:
+        columnName: contextjson
+        newDataType: TEXT
+        tableName: accessrule_audit
+
+- changeSet:
+    id: v1.8-type-changes-7
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - tableExists:
+        tableName: revisionentry
+    changes:
+    - modifyDataType:
+        columnName: revtype
+        newDataType: TEXT
+        tableName: revisionentry
+    - modifyDataType:
+        columnName: searchkey
+        newDataType: TEXT
+        tableName: revisionentry
+
+- changeSet:
+    id: v1.8-type-changes-8
+    author: edoarsla
+    preConditions:
+    - onFail: MARK_RAN
+    - tableExists:
+        tableName: token
+    changes:
+    - modifyDataType:
+        columnName: token
+        newDataType: VARCHAR(450)
+        tableName: token
