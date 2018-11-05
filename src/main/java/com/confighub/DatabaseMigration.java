@@ -14,7 +14,7 @@ import java.sql.DriverManager;
 
 @CommandLine.Command( name = "example",
                       mixinStandardHelpOptions = true,
-                      version = "Picocli example 3.0" )
+                      version = "ConfigHub DM manager v1.8" )
 public class DatabaseMigration
       implements Runnable
 {
