@@ -6,14 +6,12 @@ import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
-import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 
 
-@Slf4j
 @CommandLine.Command( name = "example",
                       mixinStandardHelpOptions = true,
                       version = "Picocli example 3.0" )

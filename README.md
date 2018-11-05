@@ -4,10 +4,10 @@
 `./gradlew clean build jar`
 
 ### Run:
-`java -jar target/DBMigration-1.8.jar [options...]`
+`java -jar build/libs/ConfigHubDBManager-1.8.jar [parameters]`
 
 ### Usage: 
-`example [-hV] -r=<databaseUrl> -u=<username> -p=<password>`
+`parameters [-hV] -r=<databaseUrl> -u=<username> -p=<password>`
 
 ```
   -h, --help                Show this help message and exit.  

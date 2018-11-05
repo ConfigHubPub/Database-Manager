@@ -1,0 +1,39 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.2'
+    }
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'java'
+
+group 'ConfigHub'
+version '1.8'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    flatDir( dir: 'lib' )
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.confighub.DatabaseMigration'
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree( it ) }
+    }
+}
+
+dependencies {
+
+    compile group: 'org.liquibase', name: 'liquibase-core', version: '3.5.3'
+    compile group: 'info.picocli', name: 'picocli', version: '3.7.0'
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.2'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
+    compile name: 'ojdbc8'
+}
