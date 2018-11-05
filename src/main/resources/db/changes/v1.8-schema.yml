@@ -110,3 +110,19 @@ databaseChangeLog:
         oldColumnName: password
         columnDataType: VARCHAR(255)
         tableName: securityprofile_audit
+
+- changeSet:
+    id: v1.8-schema-0004
+    author: edoarsla
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: account_type
+            type: varchar(255)
+        tableName: useraccount
+    - addNotNullConstraint:
+        columnDataType: varchar(255)
+        columnName: account_type
+        defaultNullValue: LOCAL
+        tableName: useraccount
