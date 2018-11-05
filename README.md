@@ -1,4 +1,4 @@
-# ConfigHub Database Manager [![Build Status](https://travis-ci.org/ConfigHubPub/DBManager.svg?branch=master)](https://travis-ci.org/ConfigHubPub/DBManager)
+# ConfigHub Database Manager [![Build Status](https://travis-ci.org/ConfigHubPub/Database-Manager.svg?branch=master)](https://travis-ci.org/ConfigHubPub/Database-Manager)
 
 Before upgrading ConfigHub instances to the latest version, DBManager will upgrade your database schema to the
 latest version.  ConfigHub instances starting with version 1.8 will require you to upgrade the schema using
