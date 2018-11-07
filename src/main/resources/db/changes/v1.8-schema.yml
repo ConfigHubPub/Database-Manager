@@ -126,3 +126,12 @@ databaseChangeLog:
         columnName: account_type
         defaultNullValue: LOCAL
         tableName: useraccount
+
+- changeSet:
+    id: v1.8-schema-0005
+    author: edoarsla
+    changes:
+    - dropNotNullConstraint:
+        columnDataType: varchar(255)
+        columnName: userpassword
+        tableName: useraccount
