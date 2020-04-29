@@ -1,0 +1,25 @@
+databaseChangeLog:
+
+- changeSet:
+    id: v1.9-schema-0001
+    author: ngolini
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            defaultValueBoolean: false
+            name: confirmcontextchange
+            type: BOOLEAN
+        tableName: repository
+
+- changeSet:
+    id: v1.9-schema-0002
+    author: ngolini
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            defaultValueBoolean: false
+            name: confirmcontextchange
+            type: BOOLEAN
+        tableName: repository_audit

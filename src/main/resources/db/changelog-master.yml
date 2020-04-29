@@ -11,3 +11,6 @@ databaseChangeLog:
 
 - include:
     file: db/changes/v1.8-schema.yml
+
+- include:
+    file: db/changes/v1.9-schema.yml
