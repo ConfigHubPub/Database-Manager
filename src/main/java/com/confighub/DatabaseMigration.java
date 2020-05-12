@@ -34,7 +34,7 @@ import java.sql.DriverManager;
  */
 @CommandLine.Command( name = "example",
                       mixinStandardHelpOptions = true,
-                      version = "ConfigHub DB Manager v1.8" )
+                      version = "ConfigHub DB Manager v1.9" )
 public class DatabaseMigration
       implements Runnable
 {
