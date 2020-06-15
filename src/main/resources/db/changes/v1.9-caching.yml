@@ -1,0 +1,19 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: v1.9-caching
+      author: wgrim
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  defaultValueBoolean: false
+                  name: cachingEnabled
+                  type: boolean
+            tableName: repository
+        - addColumn:
+            columns:
+              - column:
+                  name: cachingEnabled
+                  type: boolean
+            tableName: repository_audit
