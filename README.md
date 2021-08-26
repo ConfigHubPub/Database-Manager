@@ -8,7 +8,7 @@ Database Manager before they will run.
 `./gradlew clean build jar`
 
 ### Run:
-`java -jar build/libs/ConfigHubDBManager-1.9.jar [parameters]`
+`java -jar build/libs/ConfigHubDBManager-1.9.1.jar [parameters]`
 
 ### Usage: 
 `parameters [-hV] -t <databaseType> -r <databaseUrl> -u <username> -p <password>`
