@@ -21,3 +21,17 @@ Database Manager before they will run.
   -p, --password=<password> Database password
   -V, --version             Print version information and exit.
 ```
+
+### Usage docker:
+
+It will be specting the envs DB_USER, DB_PASSWORD, DB_TYPE, DB_URL. This will be used inside dbm.sh
+
+```
+docker run -it --rm \
+-e DB_USER='confighub' \
+-e DB_PASSWORD='password' \
+-e DB_TYPE='mysql' \
+-e DB_URL='jdbc:mysql://ip_of_server:3306/confighub' \
+confighub/confighudbm:latest
+```
+
