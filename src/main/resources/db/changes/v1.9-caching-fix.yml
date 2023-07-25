@@ -1,0 +1,16 @@
+databaseChangeLog:
+
+- changeSet:
+    id: v1.9-caching-fix
+    author: mpolgar
+    changes:
+    - renameColumn:
+        newColumnName: cachingenabled
+        oldColumnName: cachingEnabled
+        columnDataType: boolean
+        tableName: repository
+    - renameColumn:
+        newColumnName: cachingenabled
+        oldColumnName: cachingEnabled
+        columnDataType: boolean
+        tableName: repository_audit

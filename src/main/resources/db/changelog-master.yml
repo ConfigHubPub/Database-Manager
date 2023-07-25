@@ -17,3 +17,6 @@ databaseChangeLog:
 
 - include:
     file: db/changes/v1.9-caching.yml
+
+- include:
+    file: db/changes/v1.9-caching-fix.yml
