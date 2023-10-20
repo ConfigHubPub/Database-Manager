@@ -48,7 +48,7 @@ databaseChangeLog:
         tableName: repofile
     - modifyDataType:
         columnName: content
-        newDataType: TEXT
+        newDataType: MEDIUMTEXT
         tableName: repofile
 
 - changeSet:
@@ -65,7 +65,7 @@ databaseChangeLog:
         tableName: repofile_audit
     - modifyDataType:
         columnName: content
-        newDataType: TEXT
+        newDataType: MEDIUMTEXT
         tableName: repofile_audit
 
 - changeSet:

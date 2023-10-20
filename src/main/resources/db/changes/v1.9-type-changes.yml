@@ -1,0 +1,27 @@
+databaseChangeLog:
+
+- changeSet:
+    id: v1.9-type-changes-1
+    author: wgrim
+    preConditions:
+    - onFail: MARK_RAN
+    - tableExists:
+        tableName: repofile
+    changes:
+    - modifyDataType:
+        columnName: content
+        newDataType: MEDIUMTEXT
+        tableName: repofile
+
+- changeSet:
+    id: v1.9-type-changes-2
+    author: wgrim
+    preConditions:
+    - onFail: MARK_RAN
+    - tableExists:
+        tableName: repofile_audit
+    changes:
+    - modifyDataType:
+        columnName: content
+        newDataType: MEDIUMTEXT
+        tableName: repofile_audit
